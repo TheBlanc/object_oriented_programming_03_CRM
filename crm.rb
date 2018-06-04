@@ -35,24 +35,6 @@ class CRM
   end
 
 
-# Deletes all contacts
-  def delete_all
-    puts "\e[H\e[2J"
-    puts "ARE YOU SURE YOU WANT TO DELETE ALL CONTACTS? (yes/no)"
-    user_value = gets.chomp
-    case user_value.upcase
-      when "YES"
-        puts "\e[H\e[2J"
-        puts "ALL CONTACTS DELETED!"
-        Contact.delete_all
-      when "NO"
-         exit
-      else
-        exit
-    end
-  end
-
-
 # Adds new contacts to @@contacts array
   def add_new_contact
     puts "\e[H\e[2J"
@@ -80,34 +62,7 @@ class CRM
   end
 
 
-# Modify contact information
-  def modify_existing_contact
-    puts "\e[H\e[2J"
-    puts "Which contact would you like to modify?"
-    contact = search_by_attribute
-    puts "Please select which attribute to modify"
-    print_modify_options
-    user_attribute = gets.to_i
-    puts "Please enter the new contact info: "
-    user_value = gets.chomp
-    contact.update(user_attribute, user_value)
-    puts "\e[H\e[2J"
-    puts "\nUPDATED!"
-    puts "------------------------------\n"
-    puts "Name: #{contact.first_name} #{contact.last_name}\nEmail: #{contact.email}\nNotes: #{contact.notes}\n"
-    puts "------------------------------\n\n"
-
-  end
-
-  def print_modify_options
-    puts '[1] First Name'
-    puts '[2] Last Name'
-    puts '[3] Email'
-    puts '[4] Notes'
-    puts '[5] cancel'
-    puts 'Enter a number: '
-  end
-
+# Delete contact
   def delete_contact
     puts "\e[H\e[2J"
     puts "Which contact would you like to delete?"
@@ -176,6 +131,54 @@ class CRM
     puts "[5] cancel"
     puts "\nEnter a number: "
   end
+
+
+# Modify contact information
+  def modify_existing_contact
+    puts "\e[H\e[2J"
+    puts "Which contact would you like to modify?"
+    contact = search_by_attribute
+    puts "Please select which attribute to modify"
+    print_modify_options
+    user_attribute = gets.to_i
+    puts "Please enter the new contact info: "
+    user_value = gets.chomp
+    contact.update(user_attribute, user_value)
+    puts "\e[H\e[2J"
+    puts "\nUPDATED!"
+    puts "------------------------------\n"
+    puts "Name: #{contact.first_name} #{contact.last_name}\nEmail: #{contact.email}\nNotes: #{contact.notes}\n"
+    puts "------------------------------\n\n"
+
+  end
+
+  def print_modify_options
+    puts '[1] First Name'
+    puts '[2] Last Name'
+    puts '[3] Email'
+    puts '[4] Notes'
+    puts '[5] cancel'
+    puts 'Enter a number: '
+  end
+
+
+# Delete all contacts
+  def delete_all
+    puts "\e[H\e[2J"
+    puts "ARE YOU SURE YOU WANT TO DELETE ALL CONTACTS? (yes/no)"
+    user_value = gets.chomp
+    case user_value.upcase
+      when "YES"
+        puts "\e[H\e[2J"
+        puts "ALL CONTACTS DELETED!"
+        Contact.delete_all
+      when "NO"
+         exit
+      else
+        exit
+    end
+  end
+
 
 end
 

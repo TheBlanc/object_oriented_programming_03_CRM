@@ -131,6 +131,7 @@ class Contact
     end
   end
 
+
   # This method should delete all of the contacts
   def self.delete_all
     delete = []
@@ -139,7 +140,7 @@ class Contact
     end
     delete.each do |person|
       @@contacts.delete(person)
-    end 
+    end
   end
 
 
