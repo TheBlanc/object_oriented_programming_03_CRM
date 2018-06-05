@@ -51,12 +51,17 @@ class CRM
     print 'Enter a note (optional): '
     note = gets.chop
 
-    contact = Contact.create(first_name, last_name, email, note)
+    contact = Contact.create(
+              first_name:   first_name,
+              last_name:    last_name,
+              email:        email,
+              note:         note
+            )
 
     puts "\e[H\e[2J"
     puts "\nUPDATED!"
     puts "------------------------------\n"
-    puts "Name: #{contact.first_name} #{contact.last_name}\nEmail: #{contact.email}\nNotes: #{contact.notes}\n"
+    puts "Name: #{contact.first_name} #{contact.last_name}\nEmail: #{contact.email}\nNote: #{contact.note}\n"
     puts "------------------------------\n\n"
 
   end
@@ -67,7 +72,7 @@ class CRM
     puts "\e[H\e[2J"
     puts "------------------------------\n\n"
     Contact.all.each do |person|
-      puts "Name: #{person.first_name} #{person.last_name}\nEmail: #{person.email}\nNotes: #{person.notes}\n\n"
+      puts "Name: #{person.first_name} #{person.last_name}\nEmail: #{person.email}\nNote: #{person.note}\n\n"
     end
     puts "------------------------------"
     return Contact.all
@@ -76,7 +81,6 @@ class CRM
 
 # Search for a contact by desired attribute
   def search_by_attribute
-    puts "\e[H\e[2J"
     puts "\nPlease select a contact attribute to search by."
     print_search_by_attribute_options
     user_attribute = gets.chomp.downcase
@@ -85,19 +89,20 @@ class CRM
     #   display_all_contacts
     #   search_by_attribute
     if user_attribute == "cancel"
+      puts "\e[H\e[2J"
       return
     end
 
     puts "Please enter the contact's info: "
     user_value = gets.chomp
-    contact = Contact.find_by(user_attribute, user_value)
+    contact = Contact.find_by(user_attribute => user_value)
     # Attempting safeguard
     # if contact == "invalid"
     #   return "INVALID OPTION"
     # end
     puts "\e[H\e[2J"
     puts "\n------------------------------"
-    puts "Name: #{contact.first_name} #{contact.last_name}\nEmail: #{contact.email}\nNotes: #{contact.notes}"
+    puts "Name: #{contact.first_name} #{contact.last_name}\nEmail: #{contact.email}\nNote: #{contact.note}"
     puts "------------------------------\n\n"
     return contact
   end
@@ -121,15 +126,16 @@ class CRM
     print_modify_options
     user_attribute = gets.chomp.downcase
     if user_attribute == "cancel"
+      puts "\e[H\e[2J"
       return
     end
     puts "Please enter the new contact info: "
     user_value = gets.chomp
-    contact.update(user_attribute, user_value)
+    contact.update(user_attribute => user_value)
     puts "\e[H\e[2J"
     puts "\nUPDATED!"
     puts "------------------------------\n"
-    puts "Name: #{contact.first_name} #{contact.last_name}\nEmail: #{contact.email}\nNotes: #{contact.notes}\n"
+    puts "Name: #{contact.first_name} #{contact.last_name}\nEmail: #{contact.email}\nNote: #{contact.note}\n"
     puts "------------------------------\n\n"
 
   end
@@ -138,7 +144,7 @@ class CRM
     puts "\nfirst_name"
     puts "last_name"
     puts "email"
-    puts "notes"
+    puts "note"
     puts "cancel"
     puts "\nEnter one of the above options: "
   end
@@ -151,12 +157,12 @@ class CRM
     contact = search_by_attribute
     puts "ARE YOU SURE YOU WANT TO DELETE? (yes/no)"
     user_value = gets.chomp
-    if user_value.upcase == cancel
+    if user_value.upcase == "CANCEL"
       return
     end
     case user_value.upcase
       when "YES"
-         contact.delete(contact)
+         contact.delete
       when "NO"
          return
       else
