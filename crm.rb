@@ -79,13 +79,13 @@ class CRM
     puts "\e[H\e[2J"
     puts "\nPlease select a contact attribute to search by."
     print_search_by_attribute_options
-    user_attribute = gets.to_i
+    user_attribute = gets.chomp.downcase
     #Attepted to loop back through function after contacts displayed
     # if user_attribute == 5
     #   display_all_contacts
     #   search_by_attribute
-    if user_attribute == 5
-      exit
+    if user_attribute == "cancel"
+      return
     end
 
     puts "Please enter the contact's info: "
@@ -103,13 +103,12 @@ class CRM
   end
 
   def print_search_by_attribute_options
-    puts "\n[1] First Name"
-    puts "[2] Last Name"
-    puts "[3] Full Name"
-    puts "[4] Email"
-    # puts '[5] View All Contacts"
-    puts "[5] cancel"
-    puts "\nEnter a number: "
+    puts "\nfirst_name"
+    puts "last_name"
+    puts "full_name"
+    puts "email"
+    puts "cancel"
+    puts "\nEnter one of the above options: "
   end
 
 
@@ -120,7 +119,10 @@ class CRM
     contact = search_by_attribute
     puts "Please select which attribute to modify"
     print_modify_options
-    user_attribute = gets.to_i
+    user_attribute = gets.chomp.downcase
+    if user_attribute == "cancel"
+      return
+    end
     puts "Please enter the new contact info: "
     user_value = gets.chomp
     contact.update(user_attribute, user_value)
@@ -133,12 +135,12 @@ class CRM
   end
 
   def print_modify_options
-    puts '[1] First Name'
-    puts '[2] Last Name'
-    puts '[3] Email'
-    puts '[4] Notes'
-    puts '[5] cancel'
-    puts 'Enter a number: '
+    puts "\nfirst_name"
+    puts "last_name"
+    puts "email"
+    puts "notes"
+    puts "cancel"
+    puts "\nEnter one of the above options: "
   end
 
 
@@ -149,13 +151,16 @@ class CRM
     contact = search_by_attribute
     puts "ARE YOU SURE YOU WANT TO DELETE? (yes/no)"
     user_value = gets.chomp
+    if user_value.upcase == cancel
+      return
+    end
     case user_value.upcase
       when "YES"
          contact.delete(contact)
       when "NO"
-         exit
+         return
       else
-        exit
+        return
     end
     puts "\e[H\e[2J"
     puts "\nCONTACT DELETED!"
@@ -173,17 +178,18 @@ class CRM
         puts "ALL CONTACTS DELETED!"
         Contact.delete_all
       when "NO"
-         exit
+         return
       else
-        exit
+        return
     end
   end
 
 end
 
-Contact.create("Kevin", "LeBlanc", "kleblanc@gmail.com", "Good guy")
-Contact.create("Steven", "G", "steven@gmail.com", "Good hair")
-Contact.create("Peter", "Parker", "peter@spiderman.com", "Swings")
-test1 = Contact.create("Testy", "Testerson", "test@gmail.com", "This is test 1")
+# Closes connection to the database so we do not go over 5 connections and get a "timeout" error
+at_exit do
+  ActiveRecord::Base.connection.close
+end
+
 program = CRM.new
 program.main_menu
