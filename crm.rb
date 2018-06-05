@@ -62,26 +62,6 @@ class CRM
   end
 
 
-# Delete contact
-  def delete_contact
-    puts "\e[H\e[2J"
-    puts "Which contact would you like to delete?"
-    contact = search_by_attribute
-    puts "ARE YOU SURE YOU WANT TO DELETE? (yes/no)"
-    user_value = gets.chomp
-    case user_value.upcase
-      when "YES"
-         contact.delete(contact)
-      when "NO"
-         exit
-      else
-        exit
-    end
-    puts "\e[H\e[2J"
-    puts "\nCONTACT DELETED!"
-  end
-
-
 # Display all contacts
   def display_all_contacts
     puts "\e[H\e[2J"
@@ -162,6 +142,26 @@ class CRM
   end
 
 
+# Delete contact
+  def delete_contact
+    puts "\e[H\e[2J"
+    puts "Which contact would you like to delete?"
+    contact = search_by_attribute
+    puts "ARE YOU SURE YOU WANT TO DELETE? (yes/no)"
+    user_value = gets.chomp
+    case user_value.upcase
+      when "YES"
+         contact.delete(contact)
+      when "NO"
+         exit
+      else
+        exit
+    end
+    puts "\e[H\e[2J"
+    puts "\nCONTACT DELETED!"
+  end
+
+
 # Delete all contacts
   def delete_all
     puts "\e[H\e[2J"
@@ -178,7 +178,6 @@ class CRM
         exit
     end
   end
-
 
 end
 
